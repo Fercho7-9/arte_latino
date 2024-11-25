@@ -1,1 +1,1 @@
-# arte_latin
+# arte_latino
