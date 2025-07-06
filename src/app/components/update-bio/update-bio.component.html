@@ -1,0 +1,92 @@
+<main class="bg-gray-800 text-white min-h-screen flex flex-col items-center">
+  <!-- Header -->
+  <header class="bg-[#d8a464] text-gray-800 py-4 w-full text-center">
+    <h2 class="text-6xl font-bold text-white">Artista</h2>
+  </header>
+
+  <!-- Main Content -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full px-8 my-6">
+    <!-- Form Section -->
+    <section class="space-y-6">
+      <div>
+        <h1 class="text-2xl font-bold">Hola {{ formData.nombre }}</h1>
+        <p class="text-sm text-gray-400 mt-2">Por favor ingrese su biografía y datos personales</p>
+      </div>
+
+      <!-- Biography -->
+      <div>
+        <textarea
+          [(ngModel)]="formData.biografia"
+          class="w-full bg-gray-700 text-gray-200 p-4 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ingrese aquí su biografía personal"
+          rows="5">
+        </textarea>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="space-y-4">
+        <input
+          [(ngModel)]="formData.telefono"
+          class="w-full bg-gray-700 text-gray-200 p-4 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+          placeholder="Ingresar Teléfono">
+
+        <input
+          [(ngModel)]="formData.correo"
+          class="w-full bg-gray-700 text-gray-200 p-4 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="email"
+          placeholder="Ingresar Correo">
+      </div>
+
+      <!-- Social Media -->
+      <div class="space-y-4">
+        <input
+          [(ngModel)]="formData.instagram"
+          class="w-full bg-gray-700 text-gray-200 p-4 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+          placeholder="Instagram">
+
+        <input
+          [(ngModel)]="formData.facebook"
+          class="w-full bg-gray-700 text-gray-200 p-4 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+          placeholder="Facebook">
+      </div>
+    </section>
+
+    <!-- Image Upload Section -->
+    <section class="flex flex-col items-center justify-start space-y-6">
+      <!-- Image Preview -->
+      <div class="w-64 h-64 border-2 border-dashed border-gray-600 flex items-center justify-center rounded-lg overflow-hidden">
+        <label for="upload-image" class="cursor-pointer text-center text-gray-400 w-full h-full flex flex-col items-center justify-center">
+          <ng-container *ngIf="!imagenPreview">
+            <span class="text-3xl">+</span>
+            <p class="mt-2 text-sm">Añadir imagen</p>
+          </ng-container>
+          <img *ngIf="imagenPreview" [src]="imagenPreview" alt="Preview" class="w-full h-full object-cover">
+        </label>
+        <input 
+          id="upload-image" 
+          type="file" 
+          class="hidden" 
+          (change)="onFileChange($event)"
+          accept="image/*">
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-4 w-full flex flex-col items-center">
+        <button
+          (click)="guardarCambios()"
+          class="w-full max-w-xs bg-gradient-to-r from-[#C59955] to-[#D4A157] px-6 py-2 rounded-full text-sm font-medium text-white hover:from-[#B58A44] hover:to-[#C5964F] hover:scale-105 transition-transform duration-300 shadow-lg">
+          Guardar cambios
+        </button>
+
+        <button
+          (click)="regresar()"
+          class="w-full max-w-xs bg-blue-500 px-6 py-2 rounded-full text-sm font-medium text-white hover:bg-blue-600 hover:scale-105 transition-transform duration-300 shadow-lg">
+          Regresar
+        </button>
+      </div>
+    </section>
+  </div>
+</main>

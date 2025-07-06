@@ -1,0 +1,113 @@
+<main class="container mx-auto" style="background-color: #F9F9EA;">
+  <div class="relative h-screen bg-cover bg-center" style="background-image: url('assets/images/v219_697.png');">
+    <!-- Fondo oscuro -->
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+
+    <!-- Contenido principal -->
+    <div class="relative z-10 grid grid-cols-2 h-full text-white">
+      <!-- Columna izquierda: título y eslogan -->
+      <div class="flex flex-col justify-center pl-12 space-y-6">
+        <h1 class="text-6xl font-bold leading-tight">Arte Latino</h1>
+        <p class="text-2xl italic">"Conectando artistas latinos con el mundo a través de sus obras digitales."</p>
+      </div>
+
+      <!-- Columna derecha: sección "Nosotros somos" -->
+      <div class="flex flex-col justify-center bg-black bg-opacity-40 p-10 space-y-4">
+        <h2 class="text-4xl font-semibold">¿Quiénes somos?</h2>
+        <p class="text-lg leading-relaxed">
+          Somos una plataforma dedicada a empoderar artistas latinos, brindándoles un espacio donde puedan exhibir y
+          comercializar sus creaciones digitales de manera segura y global.
+        </p>
+        <p class="text-lg leading-relaxed">
+          Creemos en el talento único de nuestra región y queremos compartirlo con el mundo, fomentando la conexión
+          entre artistas y admiradores de sus obras.
+        </p>
+        <p class="text-xl font-semibold italic">"Arte que trasciende fronteras"</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative w-full py-6 bg-[#F9F9EA]">
+    <!-- Fondo azul en el centro -->
+    <div class=" bg-[#0E1F38] text-white py-6 px-4 text-center">
+      <h2 class="text-6xl font-bold">Novedades</h2>
+    </div>
+  </div>
+  <app-carrusel></app-carrusel>
+  <div class="relative w-full py-6 bg-[#F9F9EA]">
+    <!-- Fondo azul en el centro -->
+    <div class=" bg-[#0E1F38] text-white py-6 px-4 text-center">
+      <h2 class="text-6xl font-bold">Estilos</h2>
+    </div>
+  </div>
+  <div>
+    <p class="text-xl text-center text-gray-700 mb-6 px-4">
+      Descubre una amplia variedad de estilos artísticos que representan la riqueza cultural de Latinoamérica.
+    </p>
+    <app-paint-section></app-paint-section>
+  </div>
+  <div class="relative w-full py-6 bg-[#F9F9EA]">
+    <div class="bg-[#0E1F38] text-white py-6 px-4 text-center">
+      <h2 class="text-6xl font-bold">Tienda</h2>
+    </div>
+  </div>
+  <app-product-card></app-product-card>
+  <div class="flex justify-center pb-12">
+    <button routerLink="/tienda"
+      class="bg-gradient-to-r from-[#C59955] to-[#D4A157] px-8 py-3 rounded-full text-lg font-medium text-white hover:from-[#B58A44] hover:to-[#C5964F] hover:scale-105 transition-transform duration-300 shadow-lg">
+      Ver más obras
+    </button>
+  </div>
+  <div class="relative w-full py-6 bg-[#F9F9EA]">
+    <!-- Fondo azul en el centro -->
+    <div class=" bg-[#0E1F38] text-white py-6 px-4 text-center">
+      <h2 class="text-6xl font-bold">Artistas</h2>
+    </div>
+  </div>
+  <p class="text-xl text-center text-gray-700 mb-6 px-4 py-6">
+    Conoce a los artistas detrás de estas increíbles obras y su inspiración para crear arte que conecta.
+  </p>
+  <div class="bg-[#D6A060] bg-opacity-75 py-6 rounded-lg shadow-lg max-w-2xl mx-auto text-center">
+    <h2 class="text-2xl font-semibold text-white mb-1">Nuevos Artistas</h2>
+  </div>
+  <app-artista-section></app-artista-section>
+  <div class="relative w-full py-6 bg-[#F9F9EA]">
+    <!-- Fondo azul en el centro -->
+    <div class=" bg-[#0E1F38] text-white py-6 px-4 text-center">
+      <h2 class="text-6xl font-bold">Ofrecemos</h2>
+    </div>
+  </div>
+
+  <div class="flex justify-center py-2">
+    <img src="assets/icons/logo.png" alt="Tienda Online de El Arte Urbano" class="w-80 h-auto" />
+  </div>
+  <div class="p-6">
+    <!-- Encabezado principal -->
+    <div class="bg-[#D6A060] bg-opacity-75 py-6 rounded-lg shadow-lg max-w-2xl mx-auto text-center mb-10">
+      <h2 class="text-2xl font-semibold text-white mb-1">Conoce nuestros servicios</h2>
+    </div>
+
+    <!-- Descripción -->
+    <p class="text-gray-700 mb-6 py-6">
+      En "Arte Latino" celebramos la creatividad y el talento de los artistas latinos, brindándoles una plataforma única
+      para compartir sus historias visuales. Nuestro objetivo es conectar artistas con entusiastas del arte y
+      coleccionistas de todo el mundo, fomentando una comunidad artística vibrante y global.
+    </p>
+
+    <!-- Lista de servicios -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-6">
+      <ul class="list-disc pl-6 text-gray-600">
+        <li>Exhibición de obras digitales en alta calidad, destacando cada detalle y esencia del arte latino.</li>
+        <li>Comercialización segura y transparente, garantizando la confianza entre compradores y artistas.</li>
+        <li>Promoción de artistas emergentes y consagrados, impulsando sus carreras y ampliando su alcance.</li>
+      </ul>
+      <ul class="list-disc pl-6 text-gray-600 mb-20">
+        <li>Soporte técnico y asesoramiento personalizado para optimizar su presencia en la plataforma.</li>
+        <li>Organización de eventos y colaboraciones que celebran la diversidad artística de la región.</li>
+        <li>Acceso exclusivo a una red global de coleccionistas apasionados por el arte latino.</li>
+      </ul>
+    </div>
+
+    
+  </div>
+</main>

@@ -1,0 +1,51 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-[#F9F9EA] font-poppins p-8">
+  <!-- Logo y mensaje principal -->
+  <div class="text-center mb-20">
+    <img src="assets/images/v391_636.png" alt="Arte Latino Logo" class="mx-auto w-60 h-auto top-20">
+    <p class="text-lg text-gray-700 mt-6 leading-relaxed max-w-3xl mx-auto">
+      Falta poco, <span class="font-semibold">¡Bienvenido a la Arte Latino Urbana!</span><br>
+      Un movimiento donde el asfalto es el lienzo, las rimas son poesía y las calles, el escenario.<br>
+      Antes de ser parte de este flow único, elige tu perfil y ármate.
+    </p>
+  </div>
+
+  
+  <!-- Sección Usuario y Artista -->
+  <div class="flex flex-col md:flex-row justify-center gap-12">
+    <!-- Tarjeta Usuario -->
+    <div class="bg-white shadow-lg rounded-lg border border-gray-200 w-full md:w-5/12 p-8 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl">
+      <h2 class="text-3xl font-bold text-[#cf9e66] mb-6">Usuario</h2>
+      <p class="text-gray-700 mb-6 text-center leading-relaxed">
+        Únete como usuario y disfruta de los mejores portafolios de artistas latinos.
+      </p>
+      <ul class="list-disc list-inside text-gray-600 mb-8 text-left space-y-2">
+        <li>Explora y compra obras únicas.</li>
+        <li>Conecta con artistas en tendencia.</li>
+        <li>Acceso exclusivo a eventos de arte urbano.</li>
+      </ul>
+      <button 
+        class="bg-gradient-to-r from-[#C59955] to-[#D4A157] px-8 py-3 rounded-full text-lg font-medium text-white hover:from-[#B58A44] hover:to-[#C5964F] hover:scale-105 transition-transform duration-300 shadow-lg"
+        (click)="selectRole('usuario')">
+        Elegir Usuario
+      </button>
+    </div>
+
+    <!-- Tarjeta Artista -->
+    <div class="bg-white shadow-lg rounded-lg border border-gray-200 w-full md:w-5/12 p-8 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl">
+      <h2 class="text-3xl font-bold text-[#cf9e66] mb-6">Artista</h2>
+      <p class="text-gray-700 mb-6 text-center leading-relaxed">
+        Únete como artista y expón tu talento en la plataforma líder de arte latino.
+      </p>
+      <ul class="list-disc list-inside text-gray-600 mb-8 text-left space-y-2">
+        <li>Crea y personaliza tu portafolio.</li>
+        <li>Vende tus obras de manera segura.</li>
+        <li>Promociona tu arte en una comunidad exclusiva.</li>
+      </ul>
+      <button 
+        class="bg-gradient-to-r from-[#C59955] to-[#D4A157] px-8 py-3 rounded-full text-lg font-medium text-white hover:from-[#B58A44] hover:to-[#C5964F] hover:scale-105 transition-transform duration-300 shadow-lg"
+        (click)="selectRole('artista')">
+        Elegir Artista
+      </button>
+    </div>
+  </div>
+</div>

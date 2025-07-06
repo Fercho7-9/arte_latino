@@ -1,0 +1,120 @@
+<main class="bg-[#0E1F38] text-white shadow-lg fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo alineado a la izquierda -->
+      <div class="flex items-center space-x-6 ml-1">
+        <a routerLink="/home">
+          <img src="assets/icons/logo.png" alt="Logo Arte Latino" class="h-16 w-16 object-contain">
+        </a>
+      </div>
+
+      <!-- Links de navegación -->
+      <div class="hidden md:flex items-center space-x-24 relative mx-auto">
+        <div class="group relative">
+          <a routerLink="/artistas" class="hover:text-[#B58A44] focus:text-[#B58A44]">Artistas</a>
+          <div class="absolute hidden group-hover:block bg-white text-sm rounded shadow-lg w-40 text-black">
+            <a [routerLink]="['/artistas']" fragment="nuevos"
+              class="block px-4 py-2 hover:bg-[#B58A44] hover:text-white transition-colors">Nuevos</a>
+            <a [routerLink]="['/artistas']" fragment="nacionales"
+              class="block px-4 py-2 hover:bg-[#B58A44] hover:text-white transition-colors">Nacionales</a>
+            <a [routerLink]="['/artistas']" fragment="extranjeros"
+              class="block px-4 py-2 hover:bg-[#B58A44] hover:text-white transition-colors">Internacionales</a>
+          </div>
+        </div>
+
+        <div class="group relative">
+          <a routerLink="/estilos" class="hover:text-[#B58A44] focus:text-[#B58A44]">Diseños</a>
+          <div class="absolute hidden group-hover:block bg-white text-sm rounded shadow-lg w-40 text-black">
+            <a routerLink="/estilos" fragment="pinturas-plastcas"
+               class="block px-4 py-2 hover:bg-[#B58A44] hover:text-white transition-colors">Pinturas Plásticas</a>
+            <a routerLink="/estilos" fragment="pinturas-acrilica"
+               class="block px-4 py-2 hover:bg-[#B58A44] hover:text-white transition-colors">Pinturas Acrílica</a>
+            <a routerLink="/estilos" fragment="pinturas-spray"
+               class="block px-4 py-2 hover:bg-[#B58A44] hover:text-white transition-colors">Pinturas Spray</a>
+            <a routerLink="/estilos" fragment="pinturas-laca"
+               class="block px-4 py-2 hover:bg-[#B58A44] hover:text-white transition-colors">Pinturas Laca</a>
+          </div>
+        </div>
+        
+
+        <a routerLink="/tienda" class="hover:text-[#B58A44] focus:text-[#B58A44]">Tienda Online</a>
+        <a routerLink="/contactos" class="hover:text-[#B58A44] focus:text-[#B58A44]">Contactos</a>
+      </div>
+
+      <!-- Ícono de carrito y perfil de usuario -->
+      <div class="flex items-center space-x-4 mr-6">
+        <!-- Ícono de carrito -->
+        <a (click)="toggleCart()" class="relative group cursor-pointer">
+          <app-cart [isVisible]="isCartVisible"></app-cart>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:fill-transparent" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path class="group-hover:stroke-[#B58A44]"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 5h14M9 21h2M15 21h2" />
+          </svg>
+        </a>
+
+        <!-- Botón "Ingresar" si el usuario no está autenticado -->
+        <a *ngIf="!isAuthenticated" routerLink="/login"
+          class="bg-gradient-to-r from-[#C59955] to-[#D4A157] px-6 py-2 rounded-full text-sm font-medium text-white hover:from-[#B58A44] hover:to-[#C5964F] hover:scale-105 transition-transform duration-300 shadow-lg">
+          Ingresar
+        </a>
+
+        <!-- Menú de usuario si el usuario está autenticado -->
+        <div *ngIf="isAuthenticated" class="group relative cursor-pointer">
+          <div class="flex items-center space-x-2 text-white" (click)="toggleUserMenu()">
+            <!-- Imagen de perfil del usuario -->
+            <img [src]="userImage" alt="Perfil" class="h-10 w-10 rounded-full object-cover border-2 border-[#B58A44]">
+            <span class="text-sm">{{ userName }}</span>
+          </div>
+
+          <!-- Menú desplegable -->
+          <div *ngIf="userMenuVisible"
+            class="absolute right-0 mt-2 bg-white text-sm rounded-lg shadow-lg w-48 text-black py-2"
+            (mouseenter)="onMouseEnterMenu()" (mouseleave)="onMouseLeaveMenu()">
+            <div class="px-4 py-2 border-b border-gray-200">
+              <p class="font-semibold">{{ userName }}</p>
+              <p class="text-gray-500 text-xs">{{ userRole === 'usuario' ? 'Usuario' : 'Artista' }}</p>
+            </div>
+            <a (click)="goToProfile()"
+              class="block px-4 py-2 hover:bg-[#B58A44] hover:text-white transition-colors cursor-pointer">
+              Ver Perfil
+            </a>
+            <a (click)="editProfile()"
+              class="block px-4 py-2 hover:bg-[#B58A44] hover:text-white transition-colors cursor-pointer">
+              Editar Perfil
+            </a>
+            <div class="border-t border-gray-200">
+              <a (click)="logout()"
+                class="block px-4 py-2 hover:bg-[#B58A44] hover:text-white transition-colors cursor-pointer">
+                Cerrar Sesión
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Menú móvil -->
+        <button (click)="toggleMenu()" class="md:hidden flex items-center">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú móvil -->
+    <div id="mobileMenu" [class.hidden]="!isMobileMenuVisible" class="md:hidden bg-[#0E1F38]">
+      <div class="px-4 py-2 space-y-2">
+        <a routerLink="/artistas" class="block text-white hover:text-[#B58A44]">Artistas</a>
+        <a routerLink="/disenos" class="block text-white hover:text-[#B58A44]">Diseños</a>
+        <a routerLink="/tienda" class="block text-white hover:text-[#B58A44]">Tienda Online</a>
+        <a routerLink="/contactos" class="block text-white hover:text-[#B58A44]">Contactos</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Contenido principal -->
+<main class="pt-16">
+  <!-- Aquí va el contenido de la página principal -->
+</main>

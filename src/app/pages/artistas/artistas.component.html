@@ -1,0 +1,168 @@
+<main class="container mx-auto bg-[#F9F9EA] py-12 px-4">
+  <!-- Sección de Encabezado -->
+  <section class="mb-12 pt-16 pb-6 px-8 border-b border-gray-300">
+    <div class="max-w-2xl animate-fade-in">
+      <h1 class="text-3xl font-bold text-gray-800 text-left">Artistas</h1>
+      <p class="text-gray-600 mt-4 text-left">
+        Descubre el talento artístico en nuestra galería, desde emergentes hasta reconocidos maestros.
+      </p>
+    </div>
+  </section>
+
+  <!-- Loading y Error -->
+  <div *ngIf="isLoading" class="text-center py-8">
+    <p>Cargando artistas...</p>
+  </div>
+
+  <div *ngIf="error" class="text-center py-8 text-red-600">
+    {{ error }}
+  </div>
+
+  <!-- Contenido principal cuando no hay error ni está cargando -->
+  <div *ngIf="!isLoading && !error">
+    <!-- Sección Artistas Emergentes -->
+    <section id="nuevos" class="mt-12 bg-[#12283F] py-20 transform transition-all duration-500 hover:scale-[1.01]">
+      <div class="text-center mb-8">
+        <div class="bg-[#D6A060] px-6 py-3 inline-block rounded-md shadow-lg transform transition-all duration-300 hover:scale-105">
+          <h2 class="text-2xl md:text-4xl font-bold text-white">Artistas Emergentes</h2>
+        </div>
+        <p class="text-gray-300 mt-6 max-w-2xl mx-auto">
+          Descubre nuevos talentos emergentes en el mundo del arte.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mx-auto max-w-6xl">
+        <div
+          *ngFor="let artista of emergentes"
+          class="group relative bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-500 hover:scale-[1.02]"
+        >
+          <div class="relative h-80">
+            <img
+              [src]="artista.image"
+              [alt]="artista.name"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+
+          <div class="p-6 text-center">
+            <h2 class="text-xl font-bold mb-2 text-gray-800">{{ artista.name }}</h2>
+            <p class="text-gray-600">
+              <span [class]="artista.nacionalidad.toLowerCase() === 'Ecuador' ? 'text-green-600 font-semibold' : 'text-blue-600 font-semibold'">
+                {{ artista.nacionalidad }}
+              </span>
+            </p>
+          </div>
+
+          <div class="absolute inset-0 bg-black bg-opacity-90 p-6 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <h3 class="text-xl font-bold text-white mb-4">{{ artista.name }}</h3>
+            <p class="text-gray-300 mb-3">{{ artista.description }}</p>
+            <div class="mt-4 space-y-2 text-sm text-gray-300">
+              <p>📞 {{ artista.contact }}</p>
+              <p>✉️ {{ artista.email }}</p>
+            </div>
+            <button
+            (click)="contratarArtista(artista)"
+            class="mt-6 bg-[#D6A060] hover:bg-[#b88544] text-white py-2 px-6 rounded-full transform transition-all duration-300 hover:scale-105">
+            Contactar
+          </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Artistas Nacionales -->
+    <section id="nacionales" class="mt-12 bg-[#F9F9EA] py-20 transform transition-all duration-500 hover:scale-[1.01]">
+      <div class="text-center mb-8">
+        <div class="bg-[#D6A060] px-6 py-3 inline-block rounded-md shadow-lg transform transition-all duration-300 hover:scale-105">
+          <h2 class="text-2xl md:text-4xl font-bold text-white">Artistas Nacionales</h2>
+        </div>
+        <p class="text-gray-600 mt-6 max-w-2xl mx-auto">
+          Talento ecuatoriano que enriquece nuestra cultura artística.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mx-auto max-w-6xl">
+        <div
+          *ngFor="let artista of nacionales"
+          class="group relative bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-500 hover:scale-[1.02]"
+        >
+          <div class="relative h-80">
+            <img
+              [src]="artista.image"
+              [alt]="artista.name"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+
+          <div class="p-6 text-center">
+            <h2 class="text-xl font-bold mb-2 text-gray-800">{{ artista.name }}</h2>
+            <p class="text-green-600 font-semibold">{{ artista.nacionalidad }}</p>
+          </div>
+
+          <div class="absolute inset-0 bg-black bg-opacity-90 p-6 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <h3 class="text-xl font-bold text-white mb-4">{{ artista.name }}</h3>
+            <p class="text-gray-300 mb-3">{{ artista.description }}</p>
+            <div class="mt-4 space-y-2 text-sm text-gray-300">
+              <p>📞 {{ artista.contact }}</p>
+              <p>✉️ {{ artista.email }}</p>
+            </div>
+            <button
+            (click)="contratarArtista(artista)"
+            class="mt-6 bg-[#D6A060] hover:bg-[#b88544] text-white py-2 px-6 rounded-full transform transition-all duration-300 hover:scale-105">
+            Contactar
+          </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Artistas Internacionales -->
+    <section id="extranjeros" class="mt-12 bg-[#12283F] py-20 transform transition-all duration-500 hover:scale-[1.01]">
+      <div class="text-center mb-8">
+        <div class="bg-[#D6A060] px-6 py-3 inline-block rounded-md shadow-lg transform transition-all duration-300 hover:scale-105">
+          <h2 class="text-2xl md:text-4xl font-bold text-white">Artistas Internacionales</h2>
+        </div>
+        <p class="text-gray-300 mt-6 max-w-2xl mx-auto">
+          Arte sin fronteras: talentos internacionales en nuestra galería.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mx-auto max-w-6xl">
+        <div
+          *ngFor="let artista of internacionales"
+          class="group relative bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-500 hover:scale-[1.02]"
+        >
+          <div class="relative h-80">
+            <img
+              [src]="artista.image"
+              [alt]="artista.name"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+
+          <div class="p-6 text-center">
+            <h2 class="text-xl font-bold mb-2 text-gray-800">{{ artista.name }}</h2>
+            <p class="text-black font-semibold">{{ artista.nacionalidad }}</p>
+          </div>
+
+          <div class="absolute inset-0 bg-black bg-opacity-90 p-6 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <h3 class="text-xl font-bold text-white mb-4">{{ artista.name }}</h3>
+            <p class="text-gray-300 mb-3">{{ artista.description }}</p>
+            <div class="mt-4 space-y-2 text-sm text-gray-300">
+              <p>📞 {{ artista.contact }}</p>
+              <p>✉️ {{ artista.email }}</p>
+            </div>
+            <button
+            (click)="contratarArtista(artista)"
+            class="mt-6 bg-[#D6A060] hover:bg-[#b88544] text-white py-2 px-6 rounded-full transform transition-all duration-300 hover:scale-105">
+            Contactar
+          </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>

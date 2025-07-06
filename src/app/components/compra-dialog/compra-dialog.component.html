@@ -1,0 +1,89 @@
+<div class="p-6">
+  <!-- Mensaje de autenticación requerida -->
+  <div *ngIf="!isAuthenticated || data.requiresAuth" class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
+    <p class="text-yellow-700 font-medium text-center">
+      Debes iniciar sesión o registrarte para realizar esta acción
+    </p>
+    <div class="mt-4 flex justify-center space-x-4">
+      <button (click)="goToLogin()" 
+              class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+        Iniciar Sesión
+      </button>
+      <button (click)="goToRegister()" 
+              class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+        Registrarse
+      </button>
+    </div>
+  </div>
+
+  <!-- Contenido existente del diálogo -->
+  <div *ngIf="isAuthenticated && !data.requiresAuth">
+    <h2 class="text-2xl font-bold mb-4">Realizar Compra</h2>
+    <p class="mb-4">
+      <span class="text-black">Precio Total: </span> 
+      <span class="text-blue-800">${{data.precio}}</span>
+    </p>
+    
+    <div class="mb-4">
+      <h3 class="text-lg font-semibold mb-2">Obras a comprar:</h3>
+      <ul class="list-disc pl-5">
+        <li *ngFor="let obra of data.obras" class="mb-1">
+          {{obra.titulo}} - ${{obra.precio}}
+        </li>
+      </ul>
+    </div>
+
+    <form [formGroup]="forma" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+        <input type="email" formControlName="correo"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+               placeholder="ejemplo@correo.com">
+        <p *ngIf="forma.get('correo')?.touched && forma.get('correo')?.errors?.['email']" 
+           class="mt-1 text-sm text-red-600">
+          Por favor ingrese un correo válido
+        </p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Número de Tarjeta</label>
+        <input type="text" formControlName="numero_tarjeta" 
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+               placeholder="1234 5678 9012 3456">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Nombre del Titular</label>
+        <input type="text" formControlName="nombre_titular"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Fecha de Vencimiento</label>
+          <input type="text" formControlName="fecha_vencimiento"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                 placeholder="MM/YY">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">CVV</label>
+          <input type="text" formControlName="cvv"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                 placeholder="123">
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-4 mt-6">
+        <button type="button" (click)="onCancel()"
+                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+          Cancelar
+        </button>
+        <button type="submit" [disabled]="!forma.valid"
+                class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50">
+          Comprar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

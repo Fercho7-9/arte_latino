@@ -1,0 +1,97 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-900 font-poppins p-8">
+  <div class="flex w-[950px] bg-[#f9f9ea] rounded-lg shadow-lg overflow-hidden">
+    <!-- Sección izquierda (imagen) -->
+    <div class="w-1/2 bg-white">
+      <img src="assets/images/image.jpeg" alt="Arte latino" class="w-full h-full object-cover">
+    </div>
+
+    <!-- Sección derecha (contenido) -->
+    <div class="w-1/2 flex items-center justify-center p-10 bg-[#f9f9ea]">
+      <div class="text-center w-full">
+        <!-- Imagen correcta arriba de "Bienvenido a Arte Latino" -->
+        <div class="mb-4">
+          <img src="assets/icons/logo.png" alt="Logo Arte Latino" class="h-20 w-24 object-contain mx-auto">
+        </div>
+
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Bienvenido a Arte Latino</h1>
+        <p class="text-base text-gray-600 mb-2">Por favor inicia sesión</p>
+        <p class="text-sm text-gray-600 mb-6">
+          ¿No tienes una cuenta?
+          <button (click)="onRegister()">
+            <a class="text-blue-600 hover:underline">Crear una nueva cuenta</a>
+          </button>
+        </p>
+
+        <!-- Separador -->
+        <div class="flex items-center gap-2 text-gray-600 mb-6">
+          <hr class="flex-1 border-t border-gray-400">
+          <span class="text-sm">Iniciar Sesión</span>
+          <hr class="flex-1 border-t border-gray-400">
+        </div>
+
+        <!-- Formulario -->
+        <form [formGroup]="loginForm" class="flex flex-col gap-4" (ngSubmit)="onSubmit()">
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-600 mb-1">Correo electrónico</label>
+            <input 
+              type="email" 
+              id="email" 
+              placeholder="Ingrese aquí su correo electrónico" 
+              formControlName="email"
+              required 
+              class="w-full px-4 py-3 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500">
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-600 mb-1">Contraseña</label>
+            <div class="relative">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                id="password"
+                placeholder="Ingrese aquí su contraseña"
+                formControlName="password"
+                required
+                class="w-full px-4 py-3 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
+              >
+              <button
+                type="button"
+                class="absolute inset-y-0 right-3 flex items-center"
+                (click)="togglePasswordVisibility()"
+              >
+                <img 
+                  [src]="showPassword ? 'assets/icons/invisible.png' : 'assets/icons/visible.png'" 
+                  alt="Toggle Password" 
+                  class="w-5 h-5"
+                >
+              </button>
+            </div>
+          </div>
+          
+          <!-- Mensaje de error o de carga -->
+          <div *ngIf="loading" class="text-gray-600 mb-4">
+            <p>Cargando...</p>
+          </div>
+          <div *ngIf="errorMessage" class="text-red-500 mb-4">
+            <p>{{ errorMessage }}</p>
+          </div>
+
+          <button 
+            type="submit" 
+            [disabled]="loading"
+            class="bg-gradient-to-r from-[#C59955] to-[#D4A157] px-6 py-2 rounded-full text-sm font-medium text-white hover:from-[#B58A44] hover:to-[#C5964F] hover:scale-105 transition-transform duration-300 shadow-lg">
+            {{ loading ? 'Cargando...' : 'Ingresar' }}
+          </button>
+        </form>
+
+        <!-- Enlaces de pie -->
+        <div class="flex justify-between text-sm text-gray-600 mt-4">
+          <button (click)="onRegister()">
+            <a class="text-black hover:underline hover:text-blue-600">Crear una nueva cuenta</a>
+          </button>
+          <button (click)="onPasswordRecovery()">
+            <a class="text-black hover:underline hover:text-blue-600">¿Has Olvidado tu Contraseña?</a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

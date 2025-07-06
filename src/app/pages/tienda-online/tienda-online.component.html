@@ -1,0 +1,71 @@
+<div class="container mx-auto bg-[#F9F9EA] py-12 px-4">
+  <!-- Carrito -->
+  <app-cart [isVisible]="cartVisible"></app-cart>
+
+  <section class="mb-12 pt-16 pb-6 px-8 border-b border-gray-300">
+    <div class="max-w-2xl">
+      <h1 class="text-3xl font-bold text-gray-800 text-left">Tienda Online</h1>
+      <p class="text-gray-600 mt-4 text-left">
+        Explora una amplia selección de obras de arte únicas de artistas locales. Encuentra tu próxima pieza favorita.
+      </p>
+    </div>
+  </section>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div *ngFor="let obra of obras" class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <img *ngIf="obra.imagenes && obra.imagenes.length > 0"
+           [src]="'http://localhost:5000/uploads/obras/' + obra.imagenes[0]"
+           [alt]="obra.titulo"
+           class="w-full h-64 object-cover">
+      <div class="p-6">
+        <h2 class="text-xl font-bold mb-2 text-[#12283F]">{{obra.titulo}}</h2>
+        <p class="text-gray-700 mb-2">Por {{obra.artista_id?.user_id?.name}}</p>
+        <p class="text-gray-600 mb-4">{{obra.descripcion}}</p>
+        <p class="text-2xl font-bold text-[#12283F] mb-4">${{obra.precio}}</p>
+        
+        <!-- Rating Stars -->
+        <div class="flex items-center mb-4">
+          <div class="flex space-x-1">
+            <button *ngFor="let star of [1,2,3,4,5]" 
+                    (click)="rateObra(obra._id, star)"
+                    class="text-2xl focus:outline-none"
+                    [class.text-yellow-400]="star <= (obra.averageRating || 0)"
+                    [class.text-gray-300]="star > (obra.averageRating || 0)">
+              ★
+            </button>
+          </div>
+          <span class="ml-2 text-sm text-gray-600">
+            {{obra.averageRating ? (obra.averageRating | number:'1.1-1') : 'Sin calificaciones'}}
+          </span>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <!-- Favorite Heart -->
+          <button (click)="toggleFavorito(obra)" 
+                  class="text-2xl hover:scale-110 transition-transform duration-200"
+                  [class.text-red-500]="isFavorito(obra._id)"
+                  [class.text-gray-400]="!isFavorito(obra._id)">
+            ♥
+          </button>
+          
+          <!-- Buy and Cart Buttons -->
+          <div class="flex space-x-2">
+            <button *ngIf="obra.estado === 'Disponible'"
+                    (click)="comprarObra(obra)" 
+                    class="bg-[#D6A060] hover:bg-[#C59955] text-white font-bold py-2 px-4 rounded">
+              Comprar
+            </button>
+            <button *ngIf="obra.estado === 'Disponible'"
+                    (click)="agregarAlCarrito(obra)" 
+                    class="bg-[#1a385d] hover:bg-[#0E1F38] text-white font-bold py-2 px-4 rounded flex items-center">
+              <span class="mr-2">🛒</span> Agregar al Carrito
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Padding extra para separar del footer -->
+  <div class="pb-16"></div>
+</div>

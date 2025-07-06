@@ -1,0 +1,185 @@
+<div *ngIf="artista?.blockStatus?.isBlocked" class="fixed inset-0 z-50">
+  <div class="absolute inset-0 bg-red-900 bg-opacity-90">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="bg-white rounded-lg shadow-xl p-8 max-w-2xl w-full text-center">
+        <div class="text-6xl mb-6">🚫</div>
+        <h2 class="text-3xl font-bold text-red-600 mb-4">Cuenta Bloqueada</h2>
+        <p class="text-xl mb-4">{{ artista.blockStatus.blockReason }}</p>
+        <p class="text-gray-600">Bloqueado el: {{ artista.blockStatus.blockedAt | date:'medium' }}</p>
+        <p *ngIf="artista.blockStatus.blockReason === 'Pendiente de aprobación por el administrador'" class="mt-4 text-gray-700">
+          Por favor, espere a que un administrador apruebe su cuenta de artista.
+        </p>
+        <!-- Botón de regresar -->
+        <button 
+          (click)="redirectToHome()"
+          class="bg-gradient-to-r from-[#C59955] to-[#D4A157] px-6 py-2 rounded-full text-sm font-medium text-white hover:from-[#B58A44] hover:to-[#C5964F] hover:scale-105 transition-transform duration-300 shadow-lg mt-6">
+          Regresar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="flex-grow" [class.pointer-events-none]="artista?.blockStatus?.isBlocked"
+  [class.opacity-50]="artista?.blockStatus?.isBlocked">
+  <!-- Contenido Principal -->
+  <div [class.opacity-50]="artista?.blockStatus?.isBlocked"
+    [class.pointer-events-none]="artista?.blockStatus?.isBlocked">
+    <!-- Sección de perfil del artista -->
+    <div class="bg-gray-800 text-white flex flex-col items-center">
+      <div class="grid grid-cols-2 gap-8 max-w-5xl w-full px-8 my-12">
+        <!-- Lado izquierdo: Datos del artista -->
+        <div class="space-y-6">
+          <h1 class="text-2xl font-bold">{{ artista.user_id?.name || 'Artista' }}</h1>
+          <p class="text-sm text-gray-400">Datos del artista:</p>
+
+          <!-- Biografía -->
+          <div>
+            <p class="text-sm text-gray-400 mb-2">Biografía:</p>
+            <p class="bg-gray-700 text-gray-200 p-4 rounded-lg">
+              {{ artista.biografia || 'No hay biografía disponible' }}
+            </p>
+          </div>
+
+          <!-- Teléfono -->
+          <div>
+            <p class="text-sm text-gray-400 mb-2">Teléfono:</p>
+            <p class="bg-gray-700 text-gray-200 p-4 rounded-lg">
+              {{ artista.telefono || 'No disponible' }}
+            </p>
+          </div>
+
+          <!-- Correo -->
+          <div>
+            <p class="text-sm text-gray-400 mb-2">Correo:</p>
+            <p class="bg-gray-700 text-gray-200 p-4 rounded-lg">
+              {{ artista.correo || 'No disponible' }}
+            </p>
+          </div>
+
+          <!-- Redes sociales -->
+          <div>
+            <p class="text-sm text-gray-400 mb-2">Redes sociales:</p>
+            <div class="space-y-2">
+              <p class="bg-gray-700 text-gray-200 p-4 rounded-lg">
+                Instagram: {{ artista.redes_sociales?.instagram || 'No disponible' }}
+              </p>
+              <p class="bg-gray-700 text-gray-200 p-4 rounded-lg">
+                Facebook: {{ artista.redes_sociales?.facebook || 'No disponible' }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lado derecho: Imagen del artista -->
+        <div class="flex flex-col items-center justify-start">
+          <div class="w-64 h-64 border-2 border-dashed border-gray-600 flex items-center justify-center rounded-lg overflow-hidden">
+            <img *ngIf="artista.imagen" [src]="'http://localhost:5000/uploads/artista/' + artista.imagen" 
+                 alt="Imagen del artista" class="w-full h-full object-cover rounded-lg">
+            <div *ngIf="!artista.imagen" class="text-gray-400">
+              No hay imagen disponible
+            </div>
+          </div>
+
+          <div *ngIf="!isPublicView" class="text-center mt-8">
+            <button (click)="redirectToUpdateBio()"
+              class="bg-gradient-to-r from-[#C59955] to-[#D4A157] px-6 py-2 rounded-full text-sm font-medium text-white hover:from-[#B58A44] hover:to-[#C5964F] hover:scale-105 transition-transform duration-300 shadow-lg">
+              Modificar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Separador -->
+      <div class="bg-[#d8a464] text-gray-800 py-8 w-full text-center">
+        <h2 class="text-6xl font-bold text-white">Obras</h2>
+      </div>
+    </div>
+
+    <!-- Sección de Obras -->
+    <div class="bg-yellow-50 py-16 px-10 text-gray-800">
+      <div class="max-w-6xl mx-auto">
+        <!-- Loading indicator -->
+        <div *ngIf="isLoading" class="flex justify-center items-center py-8">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C59955]"></div>
+        </div>
+
+        <!-- Content when not loading -->
+        <ng-container *ngIf="!isLoading">
+          <!-- Encabezado de Obras -->
+          <div class="flex justify-between items-center mb-10">
+            <h2 class="text-4xl font-bold tracking-wide text-gray-700">Obras del Artista</h2>
+            <button *ngIf="!isPublicView" (click)="redirectToUpdateObras()"
+              class="bg-gradient-to-r from-[#C59955] to-[#D4A157] px-8 py-3 rounded-full text-base font-semibold text-white hover:from-[#B58A44] hover:to-[#C5964F] hover:scale-105 transition-transform duration-300 shadow-md flex items-center justify-center gap-2">
+              <span class="text-xl font-bold">+</span>
+              Crear Nueva Obra
+            </button>
+          </div>
+
+          <!-- Grid de Obras -->
+          <div *ngIf="obras.length === 0" class="text-center py-8">
+            <p class="text-xl text-gray-600">No hay obras disponibles</p>
+          </div>
+
+          <div *ngIf="obras.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div *ngFor="let obra of obras" class="bg-white rounded-lg shadow-lg overflow-hidden">
+              <!-- Imagen de la obra -->
+              <div class="relative h-64">
+                <img [src]="'http://localhost:5000/uploads/obras/' + obra.imagenes[0]" [alt]="obra.titulo"
+                  class="w-full h-full object-cover" *ngIf="obra.imagenes && obra.imagenes.length > 0">
+                <div *ngIf="!obra.imagenes || obra.imagenes.length === 0"
+                  class="w-full h-full flex items-center justify-center bg-gray-200">
+                  <span class="text-gray-400">No hay imagen disponible</span>
+                </div>
+              </div>
+
+              <!-- Información de la obra -->
+              <div class="p-4">
+                <h3 class="text-xl font-bold mb-4">{{ obra.titulo }}</h3>
+                <p class="text-gray-600 mb-2">{{ obra.descripcion }}</p>
+                <p class="font-bold mb-2">{{ obra.categoria }}</p>
+                <div class="flex justify-between items-center">
+                  <span class="text-lg font-bold text-[#C59955]">${{ obra.precio }}</span>
+                  <!-- Rating y Favoritos -->
+                  <div class="flex items-center gap-4">
+                    <div class="flex items-center">
+                      <span class="text-yellow-400 mr-1">★</span>
+                      <span>{{ obra.averageRating || 0 }}/5</span>
+                    </div>
+                    <button *ngIf="isPublicView" (click)="toggleFavorito(obra)"
+                      [class.text-red-500]="isFavorito(obra._id)" class="text-gray-400 hover:text-red-500">
+                      <span class="material-icons">favorite</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-4">
+                <!-- Botones de acción solo si no está comprada y no es vista pública -->
+                <div *ngIf="!isPublicView && obra.estado !== 'Comprado'" class="flex justify-end gap-2">
+                  <button (click)="editarObra(obra._id)"
+                    class="bg-blue-500 p-2 w-24 h-10 rounded-full text-white hover:bg-blue-600 flex items-center justify-center gap-2">
+                    <span class="material-icons text-sm">Editar</span>
+                  </button>
+                  <button (click)="eliminarObra(obra._id)"
+                    class="bg-red-500 p-2 w-24 h-10 rounded-full text-white hover:bg-red-600 flex items-center justify-center gap-2">
+                    <span class="material-icons text-sm">Eliminar</span>
+                  </button>
+                </div>
+                
+
+                <!-- Indicador de obra vendida -->
+                <div *ngIf="obra.estado === 'Comprado'" class="text-center mt-4">
+                  <span class="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-800">
+                    <span class="material-icons mr-2"></span>
+                    Obra Vendida
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</main>

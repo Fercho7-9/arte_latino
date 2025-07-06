@@ -1,0 +1,63 @@
+<div class="space-y-16 p-8">
+  <!-- Producto Individual -->
+  <div
+    *ngFor="let obra of products; let i = index"
+    class="bg-[#D6A060]/10 shadow-lg rounded-lg overflow-hidden flex flex-col md:flex-row items-start"
+    [ngClass]="{'md:flex-row-reverse': i % 2 !== 0}" 
+  >
+    <!-- Imagen del producto con animación -->
+    <div class="w-full md:w-1/2 p-6">
+      <img
+        *ngIf="obra.imagenes && obra.imagenes.length > 0"
+        [src]="'http://localhost:5000/uploads/obras/' + obra.imagenes[0]"
+        [alt]="obra.titulo"
+        class="w-full h-64 object-cover rounded-lg transform transition-transform duration-300 hover:scale-105"
+      />
+    </div>
+  
+    <!-- Información del producto -->
+    <div class="p-6 w-full md:w-1/2 text-left">
+      <h2 class="text-4xl font-bold mb-4">{{obra.titulo}}</h2>
+      <p class="text-gray-600 mb-2">Por {{obra.artista_id?.user_id?.name}}</p>
+      <p class="text-gray-700 mb-4 text-2xl">{{obra.descripcion}}</p>
+      <p class="font-semibold text-3xl mb-4">${{obra.precio}}</p>
+      
+      <!-- Rating Stars -->
+      <div class="flex items-center mb-4">
+        <div class="flex space-x-1">
+          <button *ngFor="let star of [1,2,3,4,5]" 
+                  (click)="rateObra(obra._id, star)"
+                  class="text-2xl focus:outline-none"
+                  [class.text-yellow-400]="star <= (obra.averageRating || 0)"
+                  [class.text-gray-300]="star > (obra.averageRating || 0)">
+            ★
+          </button>
+        </div>
+        <span class="ml-2 text-sm text-gray-600">
+          {{obra.averageRating ? (obra.averageRating | number:'1.1-1') : 'Sin calificaciones'}}
+        </span>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <!-- Favorite Heart -->
+        <button (click)="toggleFavorito(obra)" 
+                class="text-2xl hover:scale-110 transition-transform duration-200"
+                [class.text-red-500]="isFavorito(obra._id)"
+                [class.text-gray-400]="!isFavorito(obra._id)">
+          ♥
+        </button>
+        
+        <!-- Buy Button -->
+        <button *ngIf="obra.estado === 'Disponible'"
+                (click)="comprarObra(obra)" 
+                class="bg-gradient-to-r from-[#C59955] to-[#D4A157] px-6 py-2 rounded-full text-sm font-medium text-white hover:from-[#B58A44] hover:to-[#C5964F] hover:scale-105 transition-transform duration-300 shadow-lg">
+          Comprar
+        </button>
+        <span *ngIf="obra.estado === 'Comprado'" 
+              class="text-gray-500 font-medium">
+          Vendido
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

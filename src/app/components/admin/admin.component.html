@@ -1,0 +1,213 @@
+<main class="min-h-screen bg-[#F9F9EA]">
+  <!-- Header -->
+  <div class="bg-[#d8a464] text-gray-800 py-8 w-full text-center">
+    <h2 class="text-6xl font-bold text-white">Panel de Administración</h2>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Tabs -->
+    <div class="mb-8">
+      <div class="border-b border-gray-200">
+        <nav class="-mb-px flex space-x-8">
+          <button
+            [class]="activeTab === 'users' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+            class="border-b-2 py-4 px-1 text-sm font-medium" (click)="activeTab = 'users'">
+            Usuarios
+          </button>
+          <button
+            [class]="activeTab === 'artista' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+            class="border-b-2 py-4 px-1 text-sm font-medium" (click)="activeTab = 'artista'">
+            Artistas
+          </button>
+          <button
+            [class]="activeTab === 'actions' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+            class="border-b-2 py-4 px-1 text-sm font-medium" (click)="activeTab = 'actions'">
+            Registro de Acciones
+          </button>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Users Tab -->
+    <div *ngIf="activeTab === 'users'" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div *ngFor="let user of filteredUsers" class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div class="relative h-48">
+            <img *ngIf="user.imagen" [src]="'http://localhost:5000/' + user.imagen" class="w-full h-full object-cover"
+              alt="User profile">
+            <div *ngIf="!user.imagen" class="w-full h-full flex items-center justify-center bg-gray-200">
+              <span class="material-icons text-gray-400 text-6xl">person</span>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-gray-900">{{user.name}}</h3>
+            <p class="text-sm text-gray-500">{{user.email}}</p>
+            <p class="text-xs text-gray-400 mt-1">Rol: {{user.rol}}</p>
+
+            <div class="mt-4 flex items-center justify-between">
+              <span [class]="user.blockStatus?.isBlocked ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'"
+                class="px-2 py-1 text-xs rounded-full">
+                {{user.blockStatus?.isBlocked ? 'Bloqueado' : 'Activo'}}
+              </span>
+
+              <div class="flex space-x-2">
+                <button (click)="verPerfil(user)"
+                  class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                  <span>Ver Perfil</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="mt-4 flex flex-col space-y-2">
+
+              <button *ngIf="!user.blockStatus?.isBlocked" (click)="openBlockDialog(user, 'user')"
+                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105">
+                Bloquear
+              </button>
+
+              <button *ngIf="user.blockStatus?.isBlocked" (click)="unblockUser(user._id)"
+                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105">
+                Desbloquear
+              </button>
+              <button (click)="openDeleteDialog(user, 'user')"
+              class="bg-violet-800 hover:bg-violet-900 text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105">
+              Eliminar
+            </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Artists Tab -->
+    <div *ngIf="activeTab === 'artista'" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div *ngFor="let artist of artists" class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div class="relative h-48">
+            <img *ngIf="artist.imagen" [src]="'http://localhost:5000/uploads/artista/' + artist.imagen"
+              class="w-full h-full object-cover" alt="Artist profile">
+            <div *ngIf="!artist.imagen" class="w-full h-full flex items-center justify-center bg-gray-200">
+              <span class="material-icons text-gray-400 text-6xl">palette</span>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-gray-900">{{artist.user_id?.name}}</h3>
+            <p class="text-sm text-gray-500">{{artist.correo}}</p>
+
+            <div class="mt-4 flex items-center justify-between">
+              <span [class]="artist.blockStatus?.isBlocked ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'"
+                class="px-2 py-1 text-xs rounded-full">
+                {{artist.blockStatus?.isBlocked ? 'Bloqueado' : 'Activo'}}
+              </span>
+
+              <div class="flex space-x-2">
+                <button (click)="verPerfil(artist)"
+                  class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                  <span>Ver Perfil</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="mt-4 flex flex-col space-y-2">
+
+              <button *ngIf="!artist.blockStatus?.isBlocked" (click)="openBlockDialog(artist, 'artista')"
+                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105">
+                Bloquear
+              </button>
+
+              <button *ngIf="artist.blockStatus?.isBlocked" (click)="unblockArtist(artist._id)"
+                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105">
+                Desbloquear
+              </button>
+
+              <button (click)="openDeleteDialog(artist, 'artista')"
+              class="bg-violet-800 hover:bg-violet-900 text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105">
+              Eliminar
+            </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions Tab -->
+    <div *ngIf="activeTab === 'actions'" class="space-y-6">
+      <div class="bg-white shadow overflow-hidden sm:rounded-md">
+        <ul class="divide-y divide-gray-200">
+          <li *ngFor="let action of adminActions" class="px-6 py-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm font-medium text-gray-900">{{action.action}}</div>
+                <div class="text-sm text-gray-500">{{action.description}}</div>
+                <div class="text-xs text-gray-400">{{action.timestamp | date:'medium'}}</div>
+              </div>
+              <div class="text-sm text-gray-500">
+                Admin: {{action.admin_id?.username}}
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Block Dialog -->
+    <div *ngIf="showBlockDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 w-96">
+        <h3 class="text-lg font-semibold mb-4">Razón del Bloqueo</h3>
+        <textarea [(ngModel)]="blockReason" class="w-full p-2 border rounded-md mb-4 h-32"
+          placeholder="Ingrese la razón del bloqueo..."></textarea>
+        <div class="flex justify-end space-x-3">
+          <button (click)="showBlockDialog = false" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+            Cancelar
+          </button>
+          <button (click)="confirmBlock()" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password Change Dialog -->
+    <div *ngIf="showPasswordDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 w-96">
+        <h3 class="text-lg font-semibold mb-4">Cambiar Contraseña</h3>
+        <input type="password" [(ngModel)]="newPassword" class="w-full p-2 border rounded-md mb-4"
+          placeholder="Nueva contraseña">
+        <div class="flex justify-end space-x-3">
+          <button (click)="showPasswordDialog = false" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+            Cancelar
+          </button>
+          <button (click)="confirmPasswordChange()"
+            class="px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div *ngIf="showDeleteDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 w-96">
+        <h3 class="text-lg font-semibold mb-4">Confirmar Eliminación</h3>
+        <p class="mb-4">¿Estás seguro de que deseas eliminar este {{selectedEntityType}}? Esta acción no se puede deshacer.</p>
+        <div class="flex justify-end space-x-3">
+          <button (click)="showDeleteDialog = false" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+            Cancelar
+          </button>
+          <button (click)="confirmDelete()" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

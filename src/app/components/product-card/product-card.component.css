@@ -1,0 +1,7 @@
+.selected-product {
+  background-color: #f0f9ff; /* Fondo diferente */
+  border: 2px solid #3b82f6; /* Bordes destacados */
+  transform: scale(1.05); /* Agrandar ligeramente */
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.5); /* Sombra más intensa */
+  transition: all 0.3s ease-in-out; /* Animación */
+}
